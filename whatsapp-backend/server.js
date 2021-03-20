@@ -9,7 +9,7 @@ const port = process.env.PORT || 9000;
 
 //DB config
 const conn_url='mongodb+srv:chatapp_mern:mFbI7Fzqxr58GxoJ@cluster0.1xyzt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-mongoose.connect(url, {
+mongoose.connect(conn_url, {
     useCreateIndex:true,
     useNewUrlParser:true,
     useUnifiedTopology: true
