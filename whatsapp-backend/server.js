@@ -1,7 +1,7 @@
 //importing
 import express from 'express';
 import mongoose from 'mongoose';
-import Messages from './dbmessages';
+import Messages from './dbmessages.js';
 import Pusher from 'pusher'
 
 //app config
@@ -26,6 +26,16 @@ mongoose.connect(conn_url, {
     useNewUrlParser:true,
     useUnifiedTopology: true
 })
+const db=mongoose.connection;
+db.once("open",()=>{
+    console.log("DB Connected");
+    const msgCollection = db.connection("messagecontents");
+    const changeStream = msgCollection.watch();
+    changeStream.on("change",(change)=>{
+        console.log(change);
+    })
+});
+
 //
 
 //api routes
