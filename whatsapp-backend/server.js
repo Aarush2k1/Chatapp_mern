@@ -18,21 +18,41 @@ const pusher = new Pusher({
 
 //middleware
 app.use(express.json());
+app.use((req,res,next)=>{
+    res.setHeader("Access-Control-Allow-Origin","*");
+    res.setHeader("Access-Control-Allow-Headers","*");
+    next();
+});
 
 //DB config
-const conn_url='mongodb+srv:chatapp_mern:mFbI7Fzqxr58GxoJ@cluster0.1xyzt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const conn_url='mongodb+srv://chatappDB:lYWclrJA20Ukbgcs@cluster0.1xyzt.mongodb.net/whatsappDB?retryWrites=true&w=majority'
 mongoose.connect(conn_url, {
     useCreateIndex:true,
     useNewUrlParser:true,
     useUnifiedTopology: true
-})
+});
+
 const db=mongoose.connection;
 db.once("open",()=>{
     console.log("DB Connected");
-    const msgCollection = db.connection("messagecontents");
+    const msgCollection = db.collection("messagecontents");
     const changeStream = msgCollection.watch();
+
     changeStream.on("change",(change)=>{
         console.log(change);
+        if(change.operationType == 'insert'){
+            const msgDetails = change.fullDocument;
+            pusher.trigger('messages','inserted',{
+                name:msgDetails.user,
+                message:msgDetails.message,
+                timestamp:msgDetails.timestamp,
+                reciever:msgDetails.reciever
+            }
+            ); 
+        }
+        else {
+            console.log("Error triggering pusher")
+        }
     })
 });
 
@@ -52,7 +72,7 @@ app.get('/messages/sync',(req,res)=>{
     })
 })
 
-app.get('/messages/new',(req,res)=>{
+app.post('/messages/new',(req,res)=>{
     const dbMessage = req.body
     Messages.create(dbMessage,(err,data)=>{
         if(err){
