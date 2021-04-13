@@ -1,5 +1,5 @@
 import express from "express";
-import Messages from "../models/dbmessages";
+import Messages from "../models/dbmessages.js";
 
 const router = express.Router();
 
