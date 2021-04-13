@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Chat from "./components/Chat/Chat";
 import Pusher from "pusher-js";
 import axios from "./api/axios";
+// import { BrowserRouter as Router, Switch } from "react";
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -34,6 +35,7 @@ function App() {
   return (
     <div className="app">
       <div className="app_body">
+        {/* <Router></Router> */}
         <Sidebar />
         <Chat messages={messages} />
       </div>
