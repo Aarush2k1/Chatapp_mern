@@ -27,7 +27,7 @@ app.use(cors());
 //   next();
 // }); instead of this use cors
 //api routes in routes
-app.use("/messages", msgRoutes);
+app.use("/", msgRoutes);
 app.get("/", (req, res) => {
   res.send("WELCOME TO CHATAPP API");
 });
