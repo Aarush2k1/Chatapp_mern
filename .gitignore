@@ -16,3 +16,5 @@ chatapp_react/src/index.js
 chatapp_react/src/logo.svg
 chatapp_react/src/reportWebVitals.js
 chatapp_react/src/setupTests.js
+chatapp_react/package-lock.json
+chatapp_react/src/firebase.js
