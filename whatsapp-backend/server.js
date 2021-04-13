@@ -29,7 +29,7 @@ app.use(cors());
 //api routes in routes
 app.use("/messages", msgRoutes);
 app.get("/", (req, res) => {
-  res.send("WELCOME to API");
+  res.send("WELCOME TO CHATAPP API");
 });
 
 //DB config
